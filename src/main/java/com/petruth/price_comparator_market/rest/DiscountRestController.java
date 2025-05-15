@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -18,7 +19,19 @@ public class DiscountRestController {
     }
 
     @GetMapping("/discounts")
-    public List<Discount> getDiscount(){
+    public List<Discount> getDiscounts(){
         return discountService.findAll();
+    }
+
+    @GetMapping("/discounts/best")
+    public List<Discount> getBestDiscounts(){
+        return discountService.findAllByOrderByPercentagediscountDesc();
+    }
+
+    @GetMapping("/discounts/new")
+    public List<Discount> getNewDiscounts(){
+        LocalDate yesterday = LocalDate.now().minusDays(1);
+
+        return discountService.findByFromDateAfter(yesterday);
     }
 }
