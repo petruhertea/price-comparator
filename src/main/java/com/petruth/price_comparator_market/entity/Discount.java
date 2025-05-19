@@ -14,11 +14,7 @@ public class Discount {
 
     @Column(name = "product_id")
     private String productId;
-    /*
-    @ManyToOne
-    @JoinColumn(name = "product_id",nullable = false)
-    private Product product;
-    */
+
     @ManyToOne
     @JoinColumn(name = "store_id", nullable = false)
     private Store store;
@@ -53,16 +49,6 @@ public class Discount {
     public void setId(long id) {
         this.id = id;
     }
-    /*
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-     */
 
     public Store getStore() {
         return store;

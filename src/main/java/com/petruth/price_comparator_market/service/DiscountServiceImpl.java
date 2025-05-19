@@ -22,7 +22,7 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     @Override
-    public List<Discount> findAllByOrderByPercentagediscountDesc() {
+    public List<Discount> findAllByOrderByPercentageDiscountDesc() {
         return discountRepository.findAllByOrderByPercentageDiscountDesc();
     }
 

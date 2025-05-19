@@ -25,7 +25,7 @@ public class DiscountRestController {
 
     @GetMapping("/discounts/best")
     public List<Discount> getBestDiscounts(){
-        return discountService.findAllByOrderByPercentagediscountDesc();
+        return discountService.findAllByOrderByPercentageDiscountDesc();
     }
 
     @GetMapping("/discounts/new")

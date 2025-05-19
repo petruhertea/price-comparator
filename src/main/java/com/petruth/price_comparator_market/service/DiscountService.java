@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface DiscountService {
     List<Discount> findAll();
-    List<Discount> findAllByOrderByPercentagediscountDesc();
+    List<Discount> findAllByOrderByPercentageDiscountDesc();
     List<Discount> findByFromDateAfter(LocalDate date);
 }
