@@ -30,4 +30,9 @@ public class DiscountServiceImpl implements DiscountService {
     public List<Discount> findByFromDateAfter(LocalDate date) {
         return discountRepository.findByFromDateAfter(date);
     }
+
+    @Override
+    public List<Discount> findByFromDateAfterOrderByPercentageDiscountDesc(LocalDate date) {
+        return discountRepository.findByFromDateAfterOrderByPercentageDiscountDesc(date);
+    }
 }

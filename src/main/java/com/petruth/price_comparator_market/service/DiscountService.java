@@ -9,4 +9,5 @@ public interface DiscountService {
     List<Discount> findAll();
     List<Discount> findAllByOrderByPercentageDiscountDesc();
     List<Discount> findByFromDateAfter(LocalDate date);
+    List<Discount> findByFromDateAfterOrderByPercentageDiscountDesc(LocalDate date);
 }

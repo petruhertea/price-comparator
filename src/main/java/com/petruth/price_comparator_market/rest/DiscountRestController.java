@@ -25,13 +25,13 @@ public class DiscountRestController {
 
     @GetMapping("/discounts/best")
     public List<Discount> getBestDiscounts(){
-        return discountService.findAllByOrderByPercentageDiscountDesc();
+        LocalDate yesterday = LocalDate.now().minusDays(1);
+        return discountService.findByFromDateAfterOrderByPercentageDiscountDesc(yesterday);
     }
 
     @GetMapping("/discounts/new")
     public List<Discount> getNewDiscounts(){
         LocalDate yesterday = LocalDate.now().minusDays(1);
-
         return discountService.findByFromDateAfter(yesterday);
     }
 }

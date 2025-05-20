@@ -10,4 +10,5 @@ public interface DiscountRepository extends JpaRepository<Discount, Long> {
     List<Discount> findAllByOrderByPercentageDiscountDesc();
     List<Discount> findByFromDateAfter(LocalDate date);
     List<Discount> findByProductIdAndToDateAfter(String productId, LocalDate currentDate);
+    List<Discount> findByFromDateAfterOrderByPercentageDiscountDesc(LocalDate date);
 }
