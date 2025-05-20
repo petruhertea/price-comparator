@@ -1,7 +1,7 @@
 package com.petruth.price_comparator_market.rest;
 
-import com.petruth.price_comparator_market.entity.BasketItem;
-import com.petruth.price_comparator_market.entity.BestOptions;
+import com.petruth.price_comparator_market.dto.BasketItem;
+import com.petruth.price_comparator_market.dto.StoreBasket;
 import com.petruth.price_comparator_market.service.BasketService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,12 +21,11 @@ public class BasketRestController {
     }
 
     @PostMapping("/basket/best-deals")
-    public List<BestOptions> getBestProducts(@RequestBody List<BasketItem> items){
-
-        if (items.isEmpty()){
+    public List<StoreBasket> getBestDeals(@RequestBody List<BasketItem> items){
+        if (items.isEmpty()) {
             throw new RuntimeException("The basket is empty. Please fill the basket");
         }
 
-        return basketService.findBestOptions(items);
+        return basketService.optimizeShoppingBasket(items);
     }
 }

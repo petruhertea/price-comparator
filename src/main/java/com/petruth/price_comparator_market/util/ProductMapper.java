@@ -1,6 +1,6 @@
 package com.petruth.price_comparator_market.util;
 
-import com.petruth.price_comparator_market.entity.PriceHistory;
+import com.petruth.price_comparator_market.dto.PriceHistory;
 import com.petruth.price_comparator_market.entity.Product;
 
 public class ProductMapper {

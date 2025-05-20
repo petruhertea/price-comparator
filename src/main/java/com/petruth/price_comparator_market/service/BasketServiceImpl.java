@@ -2,18 +2,22 @@ package com.petruth.price_comparator_market.service;
 
 import com.petruth.price_comparator_market.dao.DiscountRepository;
 import com.petruth.price_comparator_market.dao.ProductRepository;
-import com.petruth.price_comparator_market.entity.BasketItem;
-import com.petruth.price_comparator_market.entity.BestOptions;
+import com.petruth.price_comparator_market.dto.BasketItem;
+import com.petruth.price_comparator_market.dto.BestOptions;
+import com.petruth.price_comparator_market.dto.StoreBasket;
 import com.petruth.price_comparator_market.entity.Product;
+import com.petruth.price_comparator_market.util.BestOptionsMapper;
 import com.petruth.price_comparator_market.util.DiscountHelper;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.text.DecimalFormat;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
-public class BasketServiceImpl implements BasketService{
+public class BasketServiceImpl implements BasketService {
+
+    private static final DecimalFormat df = new DecimalFormat("0.00");
 
     public final ProductRepository productRepository;
     public final DiscountRepository discountRepository;
@@ -21,42 +25,44 @@ public class BasketServiceImpl implements BasketService{
 
     public BasketServiceImpl(ProductRepository productRepository,
                              DiscountRepository discountRepository,
-                             DiscountHelper discountHelper){
+                             DiscountHelper discountHelper) {
         this.productRepository = productRepository;
         this.discountRepository = discountRepository;
         this.discountHelper = discountHelper;
     }
 
     @Override
-    public List<BestOptions> findBestOptions(List<BasketItem> items) {
-        List<BestOptions> bestOptionsList = new ArrayList<>();
+    public List<StoreBasket> optimizeShoppingBasket(List<BasketItem> items) {
+        Map<String, List<BestOptions>> storeBaskets = new HashMap<>();
 
         for (BasketItem item : items) {
-
             List<Product> products = productRepository.findByProductId(item.getProductId());
 
             if (products.isEmpty()) continue;
 
-            Product bestOption = products.stream()
+            // Find best store for this product
+            Product bestProduct = products.stream()
                     .min(Comparator.comparing(discountHelper::calculateDiscount))
                     .orElse(null);
 
-            if (bestOption != null) {
-
-                double originalPrice = discountHelper.getOriginalPrice(bestOption);
-                double finalPrice = discountHelper.calculateDiscount(bestOption);
-
-                BestOptions bestOptions = new BestOptions();
-                bestOptions.setProductName(bestOption.getProductName());
-                bestOptions.setStoreName(bestOption.getStore().getName());
-                bestOptions.setOriginalPrice(originalPrice);
-                bestOptions.setDiscountedPrice(finalPrice);
-                bestOptions.setQuantity(item.getQuantity());
-                bestOptions.setTotalPrice(finalPrice * item.getQuantity());
-                bestOptionsList.add(bestOptions);
+            if (bestProduct != null) {
+                String storeName = bestProduct.getStore().getName();
+                BestOptions option = BestOptionsMapper.from(bestProduct, discountHelper);
+                option.setTotalPrice(item.getQuantity() * discountHelper.calculateDiscount(bestProduct));
+                // Group by store
+                storeBaskets.computeIfAbsent(storeName, k -> new ArrayList<>()).add(option);
             }
         }
 
-        return bestOptionsList;
+        // Convert to StoreBasket list with totals for each store
+        return storeBaskets.entrySet().stream()
+                .map(entry -> {
+                    double total = entry.getValue().stream()
+                            .mapToDouble(BestOptions::getTotalPrice)
+                            .sum();
+                    return new StoreBasket(entry.getKey(), entry.getValue(), total);
+                })
+                .sorted(Comparator.comparing(StoreBasket::getStoreName))
+                .collect(Collectors.toList());
     }
 }

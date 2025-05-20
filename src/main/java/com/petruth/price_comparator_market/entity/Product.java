@@ -25,7 +25,7 @@ public class Product {
     private String brand;
 
     @Column(name = "package_quantity")
-    private String packageQuantity;
+    private double packageQuantity;
 
     @Column(name = "package_unit")
     private String packageUnit;
@@ -44,7 +44,7 @@ public class Product {
     private LocalDate priceDate;
 
     public Product(long id, String productId, String productName, String productCategory,
-                   String brand, String packageQuantity, String packageUnit, double price,
+                   String brand, double packageQuantity, String packageUnit, double price,
                    String currency, Store store, LocalDate priceDate) {
         this.id = id;
         this.productId = productId;
@@ -103,11 +103,11 @@ public class Product {
         this.packageUnit = packageUnit;
     }
 
-    public String getPackageQuantity() {
+    public double getPackageQuantity() {
         return packageQuantity;
     }
 
-    public void setPackageQuantity(String packageQuantity) {
+    public void setPackageQuantity(double packageQuantity) {
         this.packageQuantity = packageQuantity;
     }
 

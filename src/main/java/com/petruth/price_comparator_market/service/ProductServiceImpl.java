@@ -1,12 +1,17 @@
 package com.petruth.price_comparator_market.service;
 
 import com.petruth.price_comparator_market.dao.ProductRepository;
-import com.petruth.price_comparator_market.entity.PriceHistory;
+import com.petruth.price_comparator_market.dto.BestOptions;
+import com.petruth.price_comparator_market.dto.PriceHistory;
 import com.petruth.price_comparator_market.entity.Product;
+import com.petruth.price_comparator_market.util.BestOptionsMapper;
 import com.petruth.price_comparator_market.util.DiscountHelper;
 import com.petruth.price_comparator_market.util.ProductMapper;
+import com.petruth.price_comparator_market.util.UnitConverter;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,5 +45,32 @@ public class ProductServiceImpl implements ProductService {
                     return ProductMapper.toPriceHistory(p, discountedPrice);
                 })
                 .toList();
+    }
+
+    @Override
+    public List<BestOptions> getRecommendations(String productId) {
+        Product reference = productRepository.findFirstByProductId(productId);
+        if (reference == null) return List.of();
+
+        List<BestOptions> bestOptionsList = new ArrayList<>();
+
+        List<Product> similarProducts = productRepository.findByProductCategoryAndProductIdNot(
+                reference.getProductCategory(),
+                productId
+        );
+
+        similarProducts.sort(Comparator.comparingDouble(product -> {
+            double finalPrice = discountHelper.calculateDiscount(product);
+            return UnitConverter.computePricePerStandardUnit(finalPrice,
+                    product.getPackageQuantity(), product.getPackageUnit());
+        }));
+
+        for (Product similarProduct : similarProducts) {
+            BestOptions bestOptions = BestOptionsMapper.from(similarProduct, discountHelper);
+            bestOptions.setTotalPrice(null);
+            bestOptionsList.add(bestOptions);
+        }
+
+        return bestOptionsList;
     }
 }

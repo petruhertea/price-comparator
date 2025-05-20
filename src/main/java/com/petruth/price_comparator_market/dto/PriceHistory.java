@@ -1,4 +1,4 @@
-package com.petruth.price_comparator_market.entity;
+package com.petruth.price_comparator_market.dto;
 
 import java.time.LocalDate;
 
