@@ -191,7 +191,7 @@ Response:
 ```json
 {
     "id": 2,
-    "userId": "petrut-hertea",
+    "userId": "your-username",
     "productId": "P026",
     "targetPrice": 6.0,
     "active": true
