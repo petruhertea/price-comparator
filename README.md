@@ -76,7 +76,7 @@ Open src/main/resources/application.properties and set your local database crede
 # If you need to work with environment variables, create an env.properties file in the same folder as application.properties
 # spring.config.import=env.properties
 
-spring.datasource.url=jdbc:mysql://localhost:3306/price_comparator_db
+spring.datasource.url=jdbc:mysql://localhost:3306/market
 spring.datasource.username=your_username
 spring.datasource.password=your_password
 
@@ -127,7 +127,7 @@ Here are sample request bodies you can use in Postman to test the main POST endp
 
 ```json
 [
-    {    // product id starts from P001 and ends at P070 for my given data
+    {
         "productId": "P009",
         "quantity": 2
     },
@@ -137,6 +137,7 @@ Here are sample request bodies you can use in Postman to test the main POST endp
     }
 ]
 ```
+Please note that **productId** starts from P001 and ends at P070 for my given data.
 
 Response:
 
