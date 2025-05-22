@@ -25,6 +25,7 @@ public class PriceAlertRestController {
         return priceAlertService.createAlert(alert);
     }
 
+    @DeleteMapping("alerts/{alertId}")
     public String deleteAlert(@PathVariable Long alertId) {
 
         PriceAlert priceAlert = priceAlertService.findById(alertId);
