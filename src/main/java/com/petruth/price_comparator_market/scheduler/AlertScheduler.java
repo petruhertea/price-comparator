@@ -38,7 +38,7 @@ public class AlertScheduler {
         List<Product> allProducts = productService.findAll();
 
         for (Product product : allProducts) {
-            double currentPrice = discountHelper.calculateDiscount(product); // poți calcula cu DiscountHelper dacă nu e deja calculat
+            double currentPrice = discountHelper.calculateDiscount(product);
             List<PriceAlert> triggeredAlerts = priceAlertService.checkAlerts(product.getProductId(), currentPrice);
 
             for (PriceAlert alert : triggeredAlerts) {
