@@ -44,7 +44,7 @@ The goal is to help users make smarter, more cost-effective grocery shopping dec
 - `GET /api/v1/discounts` - overview of all discounts
 - `POST /api/v1/alerts` - create a new price alert
 - `GET /api/v1/alerts/{userId}` - view active price alerts
-- `DELETE /api/v1/alerts/{id}` - delete active price alerts
+- `DELETE /api/v1/alerts/{id}` - disable active price alerts
 ---
 
 ## ▶️ How to Run Locally
@@ -118,7 +118,7 @@ http://localhost:8080/
 - `GET /api/v1/discounts/new` - List recently added discounts, in our code only the discounts added within 24 hours are shown.
 - `GET /api/v1/alerts/{userId}` - List a user's active price alerts.
 - `POST /api/v1/alerts` - Create a new price alert.
-- `DELETE /api/v1/alerts/{alertId}` - Delete an active alert.
+- `DELETE /api/v1/alerts/{alertId}` - Disable an active alert.
 
 ### 📝 Example Request Bodies (POST)
 Here are sample request bodies you can use in Postman to test the main POST endpoints.
