@@ -28,13 +28,28 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public boolean existsByProductId(String productId) {
+        boolean productExists = productRepository.existsByProductId(productId);
+        if (!productExists) {
+            throw new RuntimeException("Could not find the product with id - " + productId);
+        }
+        return productExists;
+    }
+
+    @Override
     public List<Product> findAll() {
         return productRepository.findAll();
     }
 
     @Override
     public List<PriceHistory> filterProductHistory(String productId, Optional<String> store, Optional<String> category, Optional<String> brand) {
-        List<Product> products = productRepository.findByProductIdOrderByPriceDateAsc(productId);
+        List<Product> products;
+
+        if (!productRepository.existsByProductId(productId)) {
+            throw new RuntimeException("Could not find the product with id - " + productId);
+        } else {
+            products = productRepository.findByProductIdOrderByPriceDateAsc(productId);
+        }
 
         return products.stream()
                 .filter(p -> store.map(s -> s.equalsIgnoreCase(p.getStore().getName())).orElse(true))
@@ -49,7 +64,15 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<BestOptions> getRecommendations(String productId) {
-        Product reference = productRepository.findFirstByProductId(productId);
+
+        Product reference;
+
+        if (!productRepository.existsByProductId(productId)) {
+            throw new RuntimeException("Could not find the product with id - " + productId);
+        } else {
+            reference = productRepository.findFirstByProductId(productId);
+        }
+
         if (reference == null) return List.of();
 
         List<BestOptions> bestOptionsList = new ArrayList<>();

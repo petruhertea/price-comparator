@@ -35,10 +35,15 @@ public class BasketServiceImpl implements BasketService {
     public List<StoreBasket> optimizeShoppingBasket(List<BasketItem> items) {
         Map<String, List<BestOptions>> storeBaskets = new HashMap<>();
 
-        for (BasketItem item : items) {
-            List<Product> products = productRepository.findByProductId(item.getProductId());
+        List<Product> products;
 
-            if (products.isEmpty()) continue;
+        for (BasketItem item : items) {
+            if (!productRepository.existsByProductId(item.getProductId())){
+                throw new RuntimeException("Could not find the product with id - " + item.getProductId());
+            }
+            else {
+                products = productRepository.findByProductId(item.getProductId());
+            }
 
             // Find best store for this product
             Product bestProduct = products.stream()

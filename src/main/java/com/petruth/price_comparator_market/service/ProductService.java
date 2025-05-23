@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductService {
+    boolean existsByProductId(String productId);
     List<Product> findAll();
     List<PriceHistory> filterProductHistory(String productId, Optional<String> store,
                                             Optional<String> category, Optional<String> brand);

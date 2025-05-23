@@ -37,7 +37,7 @@ public class PriceAlertServiceImpl implements PriceAlertService {
         if (result.isPresent()) {
             priceAlert = result.get();
         } else {
-            throw new RuntimeException("Did not find the alert with id - " + alertId);
+            throw new RuntimeException("Could not find the alert with id - " + alertId);
         }
 
         return priceAlert;

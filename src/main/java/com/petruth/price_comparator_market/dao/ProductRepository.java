@@ -9,5 +9,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByProductId(String productId);
     List<Product> findByProductIdOrderByPriceDateAsc(String productId);
     Product findFirstByProductId(String productId);
+    boolean existsByProductId(String productId);
     List<Product> findByProductCategoryAndProductIdNot(String category, String productId);
 }

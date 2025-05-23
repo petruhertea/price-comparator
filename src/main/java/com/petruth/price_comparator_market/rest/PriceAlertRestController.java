@@ -1,7 +1,10 @@
 package com.petruth.price_comparator_market.rest;
 
 import com.petruth.price_comparator_market.entity.PriceAlert;
+import com.petruth.price_comparator_market.entity.Product;
 import com.petruth.price_comparator_market.service.PriceAlertService;
+import com.petruth.price_comparator_market.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,9 +13,11 @@ import java.util.List;
 @RequestMapping("/api/v1")
 public class PriceAlertRestController {
     private final PriceAlertService priceAlertService;
+    private final ProductService productService;
 
-    public PriceAlertRestController(PriceAlertService priceAlertService) {
+    public PriceAlertRestController(PriceAlertService priceAlertService, ProductService productService) {
         this.priceAlertService = priceAlertService;
+        this.productService = productService;
     }
 
     @GetMapping("/alerts/{userId}")
@@ -21,7 +26,17 @@ public class PriceAlertRestController {
     }
 
     @PostMapping("/alerts")
-    public PriceAlert createAlert(@RequestBody PriceAlert alert) {
+    public PriceAlert createAlert(@RequestBody @Valid PriceAlert alert) {
+        if (!productService.existsByProductId(alert.getProductId())){
+            throw new RuntimeException("Could not find the product with id - " + alert.getProductId());
+        }
+        else if (alert.getTargetPrice() < 0){
+            throw new RuntimeException("The price cannot be smaller than 0");
+        }
+
+        // In case the user inserts an id in the request body, the id will be managed by the database
+        alert.setId(0);
+
         return priceAlertService.createAlert(alert);
     }
 

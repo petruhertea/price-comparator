@@ -42,7 +42,7 @@ public class AlertScheduler {
             List<PriceAlert> triggeredAlerts = priceAlertService.checkAlerts(product.getProductId(), currentPrice);
 
             for (PriceAlert alert : triggeredAlerts) {
-                log.info("Alert triggered for user: {}, product: {}, current price: {}, price target: {}", alert.getUserId(), product.getProductName(), currentPrice, alert.getTargetPrice());
+                log.info("🚨 Alert triggered for user: {}, product: {}, current price: {}, price target: {}", alert.getUserId(), product.getProductName(), currentPrice, alert.getTargetPrice());
             }
         }
     }

@@ -24,7 +24,7 @@ public class ProductRestController {
     }
 
     @GetMapping("/products/{productId}/history")
-    private List<PriceHistory> getProducts(
+    private List<PriceHistory> getProductHistory(
             @PathVariable String productId,
             @RequestParam Optional<String> store,
             @RequestParam Optional<String> category,
