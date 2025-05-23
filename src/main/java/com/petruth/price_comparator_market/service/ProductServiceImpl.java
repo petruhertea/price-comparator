@@ -77,11 +77,14 @@ public class ProductServiceImpl implements ProductService {
 
         List<BestOptions> bestOptionsList = new ArrayList<>();
 
+        // we are looking for products within the same category and with different product id
         List<Product> similarProducts = productRepository.findByProductCategoryAndProductIdNot(
                 reference.getProductCategory(),
                 productId
         );
 
+
+        // we look for products with the best price/unit range
         similarProducts.sort(Comparator.comparingDouble(product -> {
             double finalPrice = discountHelper.calculateDiscount(product);
             return UnitConverter.computePricePerStandardUnit(finalPrice,

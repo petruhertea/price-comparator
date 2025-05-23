@@ -51,6 +51,6 @@ public class PriceAlertRestController {
             throw new RuntimeException("Could not find the alert with id - " + alertId);
         }
 
-        return "Alert with id " + alertId + " deleted";
+        return "Alert with id " + alertId + " has been disabled";
     }
 }

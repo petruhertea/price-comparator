@@ -25,8 +25,7 @@ public class DiscountRestController {
 
     @GetMapping("/discounts/best")
     public List<Discount> getBestDiscounts(){
-        LocalDate yesterday = LocalDate.now().minusDays(1);
-        return discountService.findByFromDateAfterOrderByPercentageDiscountDesc(yesterday);
+        return discountService.findByToDateAfterOrderByPercentageDiscountDesc(LocalDate.now());
     }
 
     @GetMapping("/discounts/new")
