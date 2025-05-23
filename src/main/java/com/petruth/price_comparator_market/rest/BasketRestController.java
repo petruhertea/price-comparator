@@ -2,7 +2,6 @@ package com.petruth.price_comparator_market.rest;
 
 import com.petruth.price_comparator_market.dto.BasketItem;
 import com.petruth.price_comparator_market.dto.StoreBasket;
-import com.petruth.price_comparator_market.entity.Product;
 import com.petruth.price_comparator_market.service.BasketService;
 import com.petruth.price_comparator_market.service.ProductService;
 import jakarta.validation.Valid;

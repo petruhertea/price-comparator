@@ -2,8 +2,6 @@ package com.petruth.price_comparator_market.entity;
 
 import jakarta.persistence.*;
 
-import java.util.List;
-
 @Entity
 @Table(name = "store")
 public class Store {

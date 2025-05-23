@@ -1,7 +1,6 @@
 package com.petruth.price_comparator_market.rest;
 
 import com.petruth.price_comparator_market.entity.PriceAlert;
-import com.petruth.price_comparator_market.entity.Product;
 import com.petruth.price_comparator_market.service.PriceAlertService;
 import com.petruth.price_comparator_market.service.ProductService;
 import jakarta.validation.Valid;

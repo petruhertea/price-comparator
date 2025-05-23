@@ -1,7 +1,6 @@
 package com.petruth.price_comparator_market.service;
 
 import com.petruth.price_comparator_market.dto.BasketItem;
-import com.petruth.price_comparator_market.dto.BestOptions;
 import com.petruth.price_comparator_market.dto.StoreBasket;
 
 import java.util.List;
