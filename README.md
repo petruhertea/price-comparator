@@ -84,7 +84,6 @@ spring.datasource.password=your_password
 # logging.level.org.hibernate.SQL=trace
 # logging.level.org.hibernate.orm.jdbc.bind=trace
 ```
----
 ### 5. Run the application
 ```bash
 ./mvnw spring-boot:run
@@ -93,6 +92,18 @@ Once started, the application will be available at:
 ```
 http://localhost:8080
 ```
+---
+## Assumptions and Simplifications
+
+- Product data is imported from predefined CSV files (e.g., from Lidl, Profi) and is not dynamically fetched from official store APIs or websites.
+- Products with the same `productId` are considered equivalent and comparable across stores.
+- Discounts are assumed to be stored correctly in the database and applied uniformly using a helper class (`DiscountHelper`).
+- Price optimization in the shopping basket is based solely on the lowest discounted price, without considering factors like store location, distance, or user preferences.
+- Only essential product information is stored and displayed (e.g., name, brand, unit price, quantity, etc.), omitting secondary metadata like images or user reviews.
+- There is no authentication or user-specific state management; all features are publicly accessible and stateless.
+- API requests are assumed to be valid; there is minimal validation and no detailed error responses (e.g., for malformed requests or invalid input).
+- No pagination or filtering is implemented on large data endpoints (e.g., fetching all products or all price history entries).
+- The application does not distinguish between products that may look similar but have different variations (e.g., different flavors or sizes) unless explicitly specified in the CSV input.
 ---
 ## 🧪 6. Testing
 
